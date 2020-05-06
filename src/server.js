@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const keys = require("../keys");
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,7 +7,7 @@ const passport = require('passport');
 const path = require('path');
 
 // setting up port
-const connUri = process.env.MONGO_LOCAL_CONN_URL
+const connUri = keys.keys.mongo_local_conn
 
 let PORT = process.env.PORT || 3000;
 
@@ -51,7 +51,7 @@ require("./middlewares/jwt")(passport);
 require('./routes/index')(app);
 
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(keys.keys.sendgrid_api_key);
 const msg = {
   to: 'test@example.com',
   from: 'test@example.com',

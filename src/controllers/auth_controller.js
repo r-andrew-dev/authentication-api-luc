@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Token = require('../models/token');
 const { sendEmail } = require('../utils/index');
+const keys = require("../../keys");
 
 // @route POST api/auth/register
 // @desc Register user 
@@ -122,7 +123,7 @@ async function sendVerificationEmail(user, req, res) {
 
         let subject = 'Account Verification Token';
         let to = user.email;
-        let from = process.env.FROM_EMAIL;
+        let from = keys.keys.from_email;
         let link = `http://${req.headers.host}/api/auth/verify/${token.token}`
         let html = `<p>Hi ${user.username}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.
                     </p><br><p>If you did not request this, please ignore this email.</p>`;

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const keys = require("../../keys");
 
 const Token = require('../models/token');
 
@@ -102,7 +103,7 @@ UserSchema.methods.generateJWT = function() {
         lastName: this.lastName,
     };
 
-    return jwt.sign(payload, process.env.JWT_SECRET, {
+    return jwt.sign(payload, keys.keys.jwt_secret, {
         expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
     });
 };

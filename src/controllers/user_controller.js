@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const { uploader, sendEmail } = require('../utils/index');
+const keys = require("../../keys");
 
 // @route GET admin/user 
 // @desc returns all users 
@@ -39,7 +40,7 @@ exports.store = async (req, res) => {
         let domain = "http://" + req.headers.host;
         let subject = 'New Account Created';
         let to = user.email; 
-        let from = process.env.FROM_EMAIL;
+        let from = keys.keys.from_email;
         let link = "http://" + req.headers.host + 'api/auth/reset' + user.resetPasswordToken;
         let html = `<p>Hi ${user.username}<p><br><p>A new account has been created for you on ${domain}. Please click on 
                     the following <a href="${link}">link</a> to set your password and login.</p>

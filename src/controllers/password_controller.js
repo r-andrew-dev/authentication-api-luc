@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const { sendEmail } = require('../utils/index');
+const keys = require("../../keys");
 
 // @route POST api/auth/recover 
 // @desc Recover Password - Generates token and sends password reset email 
@@ -24,7 +25,7 @@ exports.recover = async (req, res) => {
 
         let subject = 'Password change request';
         let to = user.email;
-        let from = process.env.FROM_EMAIL;
+        let from = keys.keys.from_email;
         let link = 'http://' + req.headers.host + '/api/auth/reset' + user.resetPasswordToken;
         let html = `<p>Hi ${user.username}</p>
                     <p>Please click on the following <a href="${link}">link</a> to reset your password.</p>
@@ -77,7 +78,7 @@ exports.resetPassword = async (req, res) => {
 
         let subject = 'Your password has been changed';
         let to = user.email;
-        let from = process.env.FROM_EMAIL;
+        let from = process.env.;
         let html = `<p>Hi ${user.username}</p>
                     <p>This is a confirmation that the password for your account ${user.email} has just been changed.</p>`
 

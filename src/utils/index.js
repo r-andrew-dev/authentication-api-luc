@@ -1,10 +1,11 @@
 const Datauri = require('datauri');
 const path = require('path');
+const keys = require("../../keys");
 
 const cloudinary = require('../config/cloudinary');
 const sgMail = require('@sendgrid/mail');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(keys.keys.sendgrid_api_key);
 
 function uploader(req) {
     return new Promise((resolve, reject) => {
