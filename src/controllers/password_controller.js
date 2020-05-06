@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { sendEmail } = require('../utils/index');
+const {sendEmail} = require('../utils/index');
 const keys = require("../../keys");
 
 // @route POST api/auth/recover 
@@ -8,7 +8,7 @@ const keys = require("../../keys");
 
 exports.recover = async (req, res) => {
     try {
-        const { email } = req.body;
+        const {email} = req.body;
 
         const user = await User.findOne({email});
 
@@ -26,7 +26,7 @@ exports.recover = async (req, res) => {
         let subject = 'Password change request';
         let to = user.email;
         let from = keys.keys.from_email;
-        let link = 'http://' + req.headers.host + '/api/auth/reset' + user.resetPasswordToken;
+        let link = 'http://' + req.headers.host + '/api/auth/reset/' + user.resetPasswordToken;
         let html = `<p>Hi ${user.username}</p>
                     <p>Please click on the following <a href="${link}">link</a> to reset your password.</p>
                     <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`;
@@ -45,7 +45,7 @@ exports.recover = async (req, res) => {
 
 exports.reset = async(req, res) => {
     try {
-        const { token } = req.params; 
+        const {token} = req.params; 
 
         const user = await User.findOne({resetPasswordToken: token, resetPasswordExpires: {$gt: Date.now()}});
 
@@ -60,7 +60,7 @@ exports.reset = async(req, res) => {
 
 exports.resetPassword = async (req, res) => {
     try {
-        const {token} = req.params;
+        const { token } = req.params;
 
         const user = await User.findOne({resetPasswordToken: token, resetPasswordExpires: {$gt: Date.now()}});
 
@@ -78,7 +78,7 @@ exports.resetPassword = async (req, res) => {
 
         let subject = 'Your password has been changed';
         let to = user.email;
-        let from = process.env.;
+        let from = keys.keys.from_email;
         let html = `<p>Hi ${user.username}</p>
                     <p>This is a confirmation that the password for your account ${user.email} has just been changed.</p>`
 

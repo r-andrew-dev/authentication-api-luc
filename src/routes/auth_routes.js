@@ -17,7 +17,8 @@ router.post('/register', [
     check('email').isEmail().withMessage('Enter a valid email address.'),
     check('password').not().isEmpty().isLength({min: 8}).withMessage('Must be at least 8 characters long'),
     check('firstName').not().isEmpty().withMessage('Your first name is required.'),
-    check('lastName').not().isEmpty().withMessage('Your last name is required.')
+    check('lastName').not().isEmpty().withMessage('Your last name is required.'),
+
 ], validate, Auth.register);
 
 router.post("/login", [

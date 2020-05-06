@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
 
         const user = await User.findOne({ email });
 
-        if (!user) return res.status(401).json({ msg: 'The email address' + email + 'is not associated with any account. Double check your email address and try again.'});
+        if (!user) return res.status(401).json({ msg: 'The email address ' + email + ' is not associated with any account. Double check your email address and try again.'});
 
         // validate password
         if (!user.comparePassword(password)) return res.status(401).json({ message: 'Invalid email or password'});
@@ -130,7 +130,7 @@ async function sendVerificationEmail(user, req, res) {
 
         await sendEmail({ to, from, subject, html});
 
-        res.status(200).json({ message: 'A verification email has been sent to' + user.email + '.'});
+        res.status(200).json({ message: 'A verification email has been sent to ' + user.email + '.'});
     }catch (error) {
         res.status(500).json({ message: error.message})
     }

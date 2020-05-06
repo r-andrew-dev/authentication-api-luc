@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 
 // configure mongoose's promise to global promise 
 mongoose.promise = global.promise 
-mongoose.connect(connUri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect(connUri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 
 const connection = mongoose.connection;
 connection.once('open', () => console.log('MongoDB -- database connection established successfully!'));
@@ -48,19 +48,8 @@ require("./middlewares/jwt")(passport);
 
 // -- CONFIGURE ROUTES
 
-require('./routes/index')(app);
+require('./routes')(app);
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(keys.keys.sendgrid_api_key);
-const msg = {
-  to: 'test@example.com',
-  from: 'test@example.com',
-  subject: 'Sending with Twilio SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-sgMail.send(msg).
-catch(err => console.log(err));
 
 // -- START SERVER 
 app.listen(PORT, () => console.log('Server running on http://localhost' + PORT + '/'));
