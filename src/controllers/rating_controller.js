@@ -32,21 +32,59 @@ exports.submitRating = async function(req, res) {
         }
     };
 
+exports.getRatings = async function (req, res) {
+    const {id}  = req.params
+    await User.find({_id:id})
+        .then((user) => {
+            let ratings = user[0].ratings
+            res.send(ratings)
+            
+        }).catch ((err) => {
+            res.status(500).json({
+                success: false,
+                message: err.message
+        })
+    })
+};
 
-exports.getRatings = async function(req, res) {
+exports.getRatingAverages = async function(req, res) {
     const {id} = req.params
     await User.find({_id: id})
-        .then(function(ratings) {
-            res.send(ratings[0].ratings)
+        .then((user) => {
+            console.log(user[0].ratings)
+            let ratings = user[0].ratings
+            //  {skill:avg raiting}
+           let ratObj ={}
+           for (let i=0; i<ratings.length;i++){
+               console.log(ratings[i].skillName)
+               let skill = ratings[i].skillName
+               console.log("-----> ", ratObj[skill])
+               if(ratObj[skill]){
+                   let total = ratObj[skill].total + 1
+                   let totRat = ratObj[skill].totRat + ratings[i].rating
+                   let avgRat = totRat / total
+                   ratObj[skill]={"total":total, "totRat":totRat,"avgRat":avgRat}
+               }
+               else {
+                ratObj[skill]={"total":1, "totRat":ratings[i].rating, "avgRat":ratings[i].rating}
+               }
+           }
+           console.log("->",ratObj)
+            res.send(ratObj)
             // res.status(200).json({ratings})
         })
-     .catch(function(err) { 
+     .catch((err) => { 
         res.status(500).json({
             success: false,
             message: err.message
         })
     })
  };
+
+
+//  FUNCTION TO GET ALL OF THE USERS RATINGS, SORT THEM BY SKILL NAME, 
+// AND THEN AVERAGE TOGETHER THE SKILL NAME SETS.
+
 
 
  
