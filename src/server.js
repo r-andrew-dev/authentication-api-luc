@@ -7,8 +7,8 @@ const passport = require('passport');
 const path = require('path');
 
 // setting up port
-const connUri = keys.keys.mongo_local_conn;
-
+const connUri = process.env.MONGODB_URI || keys.keys.mongo_local_conn;
+ 
 let PORT = process.env.PORT || 3000;
 
 // -- create app 
