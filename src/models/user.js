@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const keys = require("../../keys");
+const Schema = mongoose.Schema;
 
 const Token = require('../models/token');
 
@@ -64,8 +65,26 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpires: {
         type: Date, 
         required: false
-    }
+    },
+    ratings: [{
 
+        skillName: {
+        type: String, 
+        required: true
+        },
+        postedBy: {
+            type: String,
+            required: true
+        },
+        rating: {
+            type: Number,
+            required: true
+        },
+    }, {timestamps: true}],
+    ratingAverages: [{
+        type: Number,
+        default: true
+    }]
 
 }, { timestamps: true});
 
@@ -122,5 +141,6 @@ UserSchema.methods.generateVerificationToken = function() {
 
     return new Token(payload);
 };
+
 
 module.exports = mongoose.model('Users', UserSchema);

@@ -2,6 +2,7 @@ const User = require('../models/user');
 const {sendEmail} = require('../utils/index');
 const keys = require("../../keys");
 
+
 // @route POST api/auth/recover 
 // @desc Recover Password - Generates token and sends password reset email 
 // @access Public 
