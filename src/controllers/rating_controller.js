@@ -2,6 +2,7 @@ const User = require('../models/user');
 
 exports.submitRating = async function(req, res) {
     try {
+        console.log('this route was hit')
         const {id} = req.params 
         const {postedBy, rating, skillName} = req.body
         const rateSubmitted = await User.find({"_id":id, "ratings.postedBy": postedBy, "ratings.skillName": skillName}, function(err, results) {
@@ -9,22 +10,26 @@ exports.submitRating = async function(req, res) {
             return
         } )
         
+        console.log(req.body.postedBy, req.body.rating, req.body.skillName)
         
-        if (!rateSubmitted[0]) {
-        
-        User.updateOne({_id:id}, {$push: 
-            {ratings: {
-                skillName: skillName,
-                postedBy: postedBy,
-                rating: rating
-            }}
-        },
-            function(err, results) {
-            if (err) {console.log(err)} else 
-                     { return res.send({message: "your rating was successfully added.", results})}
-                })
-            } else {
-                return res.send({message: "You have already submitted a rating for this user for this skill."}) 
+        if (!postedBy || !rating || !skillName || !id) {
+            {return res.send({message:"Please provide all required information to submit a rating."})}
+       
+        } else if (!rateSubmitted[0]) {
+            User.updateOne({_id:id}, {$push: 
+                {ratings: {
+                    skillName: skillName,
+                    postedBy: postedBy,
+                    rating: rating
+                }}
+            },
+                function(err, results) {
+                if (err) {console.log(err)} 
+                        else 
+                         { return res.send({message: "your rating was successfully added.", results})}
+                    })
+         }else {
+                return res.send({message: "You have already submitted a rating for this user for this skill."})
             } 
         
         }   catch (error) {
