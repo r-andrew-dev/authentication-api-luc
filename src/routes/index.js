@@ -11,6 +11,6 @@ module.exports = app => {
 
     app.use('/api/auth', auth);
     app.use('/api/user', authenticate, user);
-    app.use('/api/rating', rating) 
+    app.use('/api/rating', rating);
 
 };

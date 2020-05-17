@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport');
 const path = require('path');
-
 // setting up port
 const connUri = process.env.MONGODB_URI || keys.keys.mongo_local_conn;
  

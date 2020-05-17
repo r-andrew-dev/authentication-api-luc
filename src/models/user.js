@@ -39,7 +39,11 @@ const UserSchema = new mongoose.Schema({
         required: 'Last Name is required',
         max: 100
     },
-
+    jobRole: {
+        type: String,
+        required: 'Job Title or Role is required',
+        max: 100
+    },
     bio: {
         type: String,
         required: false,

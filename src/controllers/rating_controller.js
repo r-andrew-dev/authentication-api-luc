@@ -1,6 +1,7 @@
 const User = require('../models/user');
 
 exports.submitRating = async function(req, res) {
+    console.log(req.body)
     try {
         console.log('this route was hit')
         const {id} = req.params 
@@ -9,8 +10,6 @@ exports.submitRating = async function(req, res) {
             if (err) {console.log(err)} 
             return
         } )
-        
-        console.log(req.body.postedBy, req.body.rating, req.body.skillName)
         
         if (!postedBy || !rating || !skillName || !id) {
             {return res.send({message:"Please provide all required information to submit a rating."})}
