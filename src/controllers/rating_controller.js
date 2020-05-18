@@ -55,26 +55,26 @@ exports.getRatingAverages = async function(req, res) {
     const {id} = req.params
     await User.find({_id: id})
         .then((user) => {
-            console.log(user[0].ratings)
             let ratings = user[0].ratings
             //  {skill:avg raiting}
+            let data = []
            let ratObj ={}
            for (let i=0; i<ratings.length;i++){
-               console.log(ratings[i].skillName)
                let skill = ratings[i].skillName
-               console.log("-----> ", ratObj[skill])
                if(ratObj[skill]){
                    let total = ratObj[skill].total + 1
                    let totRat = ratObj[skill].totRat + ratings[i].rating
                    let avgRat = totRat / total
-                   ratObj[skill]={"total":total, "totRat":totRat,"avgRat":avgRat}
+                   ratObj[skill]={"total":total, "totRat":totRat,"avgRat":avgRat, "skill":skill}
                }
                else {
-                ratObj[skill]={"total":1, "totRat":ratings[i].rating, "avgRat":ratings[i].rating}
+                ratObj[skill]={"total":1, "totRat":ratings[i].rating, "avgRat":ratings[i].rating, "skill":skill}
                }
            }
+
            console.log("->",ratObj)
-            res.send(ratObj)
+           console.log(Object.values(ratObj))
+            res.send(Object.values(ratObj))
             // res.status(200).json({ratings})
         })
      .catch((err) => { 

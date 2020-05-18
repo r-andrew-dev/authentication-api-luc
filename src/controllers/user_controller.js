@@ -7,7 +7,7 @@ const keys = require("../../keys");
 // @access Public 
 
 exports.index = async function(req, res) {
-    const users = await User.find({});
+    const users = await User.find({}).sort({firstName: 1});
     res.status(200).json({users});
 };
 

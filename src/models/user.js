@@ -87,6 +87,9 @@ const UserSchema = new mongoose.Schema({
         Date: {
             type: Date,
             default: Date.now()
+        },
+        Category: {
+            type: String,
         }
     }],
     ratingAverages: [{
