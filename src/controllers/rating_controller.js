@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const ObjectId = require('mongodb').ObjectID;
 
 exports.submitRating = async function(req, res) {
     console.log(req.body)
@@ -6,15 +7,20 @@ exports.submitRating = async function(req, res) {
         console.log('this route was hit')
         const {id} = req.params 
         const {postedBy, rating, skillName} = req.body
-        const rateSubmitted = await User.find({"_id":id, "ratings.postedBy": postedBy, "ratings.skillName": skillName}, function(err, results) {
+        const rateSubmitted = await User.find({ "_id": ObjectId(id), "ratings": { $elemMatch: {"postedBy": postedBy, "skillName": skillName }}}, function(err, results) {
+
             if (err) {console.log(err)} 
-            return
-        } )
+        })
+
+        if (rateSubmitted) {
+
+            console.log(id, postedBy, skillName, rating)
         
         if (!postedBy || !rating || !skillName || !id) {
             {return res.send({message:"Please provide all required information to submit a rating."})}
        
         } else if (!rateSubmitted[0]) {
+     
             User.updateOne({_id:id}, {$push: 
                 {ratings: {
                     skillName: skillName,
@@ -31,7 +37,11 @@ exports.submitRating = async function(req, res) {
                 return res.send({message: "You have already submitted a rating for this user for this skill."})
             } 
         
-        }   catch (error) {
+        } else {
+            console.log("ratesubmitted is undefined")
+        }
+
+    } catch (error) {
             console.log(error)
         }
     };
@@ -71,6 +81,8 @@ exports.getRatingAverages = async function(req, res) {
                 ratObj[skill]={"total":1, "totRat":ratings[i].rating, "avgRat":ratings[i].rating, "skill":skill}
                }
            }
+           //  FUNCTION TO GET ALL OF THE USERS RATINGS, SORT THEM BY SKILL NAME, 
+// AND THEN AVERAGE TOGETHER THE SKILL NAME SETS.
 
            console.log("->",ratObj)
            console.log(Object.values(ratObj))
@@ -86,8 +98,7 @@ exports.getRatingAverages = async function(req, res) {
  };
 
 
-//  FUNCTION TO GET ALL OF THE USERS RATINGS, SORT THEM BY SKILL NAME, 
-// AND THEN AVERAGE TOGETHER THE SKILL NAME SETS.
+
 
 
 
