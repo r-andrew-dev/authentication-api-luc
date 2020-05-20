@@ -31,10 +31,10 @@ exports.submitRating = async function(req, res) {
                 function(err, results) {
                 if (err) {console.log(err)} 
                         else 
-                         { return res.send({message: "your rating was successfully added.", results})}
+                         { return res.send({message: "Your rating was successfully added.", pass:true, results})}
                     })
          }else {
-                return res.send({message: "You have already submitted a rating for this user for this skill."})
+                return res.send({message: "You have already submitted a rating for this user for this skill.", pass:false})
             } 
         
         } else {
