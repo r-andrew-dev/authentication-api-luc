@@ -107,7 +107,7 @@ exports.update = async function(req, res) {
 exports.updateProfileImage = async function (req, res) {
 
     try {
-        const update = req.body 
+        console.log('hitting this route')
         const id = req.params.id 
         const userId = req.user._id;
 

@@ -28,7 +28,7 @@ router.put('/:id', upload, User.update);
 
 // UPDATE PROFILE IMAGE 
 
-router.put('/image/:id', upload, User.updateProfileImage)
+router.put('/upload/:id', upload, User.updateProfileImage)
 
 
 // DELETE 
