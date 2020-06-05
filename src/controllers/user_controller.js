@@ -104,6 +104,31 @@ exports.update = async function(req, res) {
     }
 };
 
+exports.updateProfileImage = async function (req, res) {
+
+    try {
+        const update = req.body 
+        const id = req.params.id 
+        const userId = req.user._id;
+
+                // Make sure the passed id is that of the logged in user
+                if (userId.toString() != id.toString()) return res.status(401).json({ message: 'Sorry. You do not have permission to update this data.'});
+        
+                if (!req.file) return res.status(200).json({ user, message: 'User has been updated.'});
+        
+                // attempt to upload to Cloudinary 
+        
+                const result = await uploader(req);
+                const user_ = await User.findByIdAndUpdate(id, {$set: {profileImage: result.url}}, {new: true});
+        
+                if (!req.file) return res.status(200).json({user: user_, message: 'User has been updated.'});
+            
+            } catch (error) {
+                res.status(500).json({message: error.message});
+            }
+        };
+
+
 // @route DESTROY api/user/{id}
 // @desc Delete user 
 // @access Public

@@ -26,6 +26,11 @@ router.get('/:id', User.show);
 // UPDATE
 router.put('/:id', upload, User.update);
 
+// UPDATE PROFILE IMAGE 
+
+router.put('/image/:id', upload, User.updateProfileImage)
+
+
 // DELETE 
 router.delete('/:id', User.destroy);
 
