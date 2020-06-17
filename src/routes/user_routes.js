@@ -24,11 +24,13 @@ router.post('/', [
 router.get('/:id', User.show);
 
 // UPDATE
-router.put('/:id', upload, User.update);
+router.put('/:id', User.update);
 
 // UPDATE PROFILE IMAGE 
 
-router.put('/upload/:id', upload, User.updateProfileImage)
+router.put('/upload/:id', upload, User.updateProfileImage, () => {
+    console.log("made it to this point")
+})
 
 
 // DELETE 
