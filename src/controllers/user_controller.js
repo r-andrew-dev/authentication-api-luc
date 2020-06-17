@@ -7,7 +7,7 @@ const keys = require("../../keys");
 // @access Public 
 
 exports.index = async function(req, res) {
-    const users = await User.find({}).sort({firstName: 1});
+    const users = await User.find({employer: false}).sort({firstName: 1});
     res.status(200).json({users});
 };
 
@@ -16,7 +16,10 @@ exports.index = async function(req, res) {
 // @access Public 
 
 exports.store = async (req, res) => {
+
+
     try {
+
         const {email} = req.body
 
         // Make sure this account doesn't already exist 
@@ -36,19 +39,20 @@ exports.store = async (req, res) => {
         // Save the updated user Object 
         await user_.save();
 
+        console.log(user_)
+
         // get mail options 
-        let domain = "http://" + req.headers.host;
         let subject = 'New Account Created';
-        let to = user.email; 
+        let to = user_.email; 
         let from = keys.keys.from_email;
-        let link = "http://" + req.headers.host + 'api/auth/reset' + user.resetPasswordToken;
-        let html = `<p>Hi ${user.username}<p><br><p>A new account has been created for you on ${domain}. Please click on 
+        let link = 'http://' + req.headers.host + '/api/auth/reset/' + user_.resetPasswordToken;
+        let html = `<p>Hi ${user_.firstName} ${user_.lastName}<p><br><p>A new account has been created for you on Level Up Coding - a developer rating application. Please click on 
                     the following <a href="${link}">link</a> to set your password and login.</p>
-                    <br><p>If you did not request this, please ignore this email.</p>`
+                    <br><p>If you or your employer did not request this, please ignore this email.</p>`
 
-        await sendEmail({ to, from, subject, html });
+        await sendEmail({ to, from, subject, html, link});
 
-        res.status(200).json({message: 'An email has been sent to ' + user.email + '.'});
+        res.status(200).json({message: 'An email has been sent to ' + user_.email + '.'});
 
     }catch (error) {
         res.status(500).json({success: false, message: error.message})
@@ -63,7 +67,7 @@ exports.show = async function(req, res) {
     try { 
         const id = req.params.id;
 
-        const user = await User.findById(id);
+        let user = await User.findById(id);
 
         if (!user) return res.status(401).json({ message: 'User does not exist!'});
 
@@ -86,7 +90,7 @@ exports.update = async function(req, res) {
         // Make sure the passed id is that of the logged in user
         if (userId.toString() != id.toString()) return res.status(401).json({ message: 'Sorry. You do not have permission to update this data.'});
 
-        const user = await User.findByIdAndUpdate(id, {$set: update}, {new: true});
+        let user = await User.findByIdAndUpdate(id, {$set: update}, {new: true});
 
         // if there is no image, return success message
 

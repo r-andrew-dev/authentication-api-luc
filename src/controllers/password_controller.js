@@ -24,11 +24,13 @@ exports.recover = async (req, res) => {
 
         // send email 
 
+        console.log(user)
+
         let subject = 'Password change request';
         let to = user.email;
         let from = keys.keys.from_email;
         let link = 'http://' + req.headers.host + '/api/auth/reset/' + user.resetPasswordToken;
-        let html = `<p>Hi ${user.username}</p>
+        let html = `<p>Hi ${user.firstName} ${user.lastName}</p>
                     <p>Please click on the following <a href="${link}">link</a> to reset your password.</p>
                     <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`;
 
@@ -45,6 +47,8 @@ exports.recover = async (req, res) => {
 // @access Public 
 
 exports.reset = async(req, res) => {
+
+    console.log("getting her to password.reset")
     try {
         const {token} = req.params; 
 

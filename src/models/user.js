@@ -17,8 +17,10 @@ const UserSchema = new mongoose.Schema({
 
     username: {
         type: String,
-        unique: true,
-        required: 'Your username is required',
+        required: false,
+        trim: true,
+        max: 100,
+        min: 6
     },
 
     password: {
@@ -31,23 +33,27 @@ const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: 'First name is required',
-        max: 100
+        max: 100,
+        trim: true,
     },
 
     lastName: {
         type: String,
         required: 'Last Name is required',
-        max: 100
+        max: 100,
+        trim: true
     },
     jobRole: {
         type: String,
         required: 'Job Title or Role is required',
-        max: 100
+        max: 100,
+        trim: true
     },
     bio: {
         type: String,
         required: false,
-        max: 225
+        max: 225,
+        trim: true
     },
 
     profileImage: {
@@ -103,7 +109,7 @@ const UserSchema = new mongoose.Schema({
     },
     company: {
         type: String, 
-        required: true
+        required: false
     }
 
 }, {

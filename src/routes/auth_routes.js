@@ -4,6 +4,7 @@ const {check} = require('express-validator')
 
 const Auth = require('../controllers/auth_controller');
 const Password = require('../controllers/password_controller');
+const User = require('../controllers/user_controller')
 const validate = require('../middlewares/validate');
 
 const router = express.Router();
@@ -20,6 +21,14 @@ router.post('/register', [
     check('lastName').not().isEmpty().withMessage('Your last name is required.'),
 
 ], validate, Auth.register);
+
+router.post('/register/employee', [
+    check('email').isEmail().withMessage('Enter a valid email address.'),
+    check('firstName').not().isEmpty().withMessage('Employee first name is required.'),
+    check('lastName').not().isEmpty().withMessage('Employee last name is required.'),
+    check('jobRole').not().isEmpty().withMessage('Please select a job role from the drop down.'),
+
+], validate, User.store)
 
 router.post("/login", [
     check('email').isEmail().withMessage('Enter a valid email address'),
