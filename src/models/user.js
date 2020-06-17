@@ -100,6 +100,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    company: {
+        type: String, 
+        required: true
     }
 
 }, {
