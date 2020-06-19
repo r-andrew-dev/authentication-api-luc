@@ -98,10 +98,6 @@ const UserSchema = new mongoose.Schema({
             type: String,
         }
     }],
-    // ratingAverages: [{
-    //     type: Number,
-    //     default: true
-    // }]
     employer: {
         type: Boolean,
         required: true,

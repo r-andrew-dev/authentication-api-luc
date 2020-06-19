@@ -12,6 +12,8 @@ const upload = multer().single('profileImage');
 // INDEX 
 router.get('/', User.index);
 
+router.get('/:company', User.getEmployees)
+
 // STORE
 router.post('/', [
     check('email').isEmail().withMessage('Enter a valid email address.'),

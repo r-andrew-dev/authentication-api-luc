@@ -7,8 +7,17 @@ const keys = require("../../keys");
 // @access Public 
 
 exports.index = async function(req, res) {
+
     const users = await User.find({employer: false}).sort({firstName: 1});
     res.status(200).json({users});
+};
+
+exports.getEmployees = async function(req, res) {
+    const {company} = req.params
+    console.log(company)
+    const users = await User.aggregate([{$match: {"employer": false, "company": company}}]).sort({firstName: 1});
+    console.log(users)
+    res.status(200).json(users);
 };
 
 // @route POST api/user 
@@ -111,7 +120,6 @@ exports.update = async function(req, res) {
 exports.updateProfileImage = async function (req, res) {
 
     try {
-        console.log(req.data.form_data)
         console.log('hitting this route - to upload an image')
         const id = req.params.id 
         const userId = req.user._id;
@@ -130,7 +138,7 @@ exports.updateProfileImage = async function (req, res) {
                 // attempt to upload to Cloudinary 
         
                 const result = await uploader(req);
-                const user_ = await User.findByIdAndUpdate(id, {$set: {profileImage: result.url}}, {new: true});
+                const user_ = await User.findByIdAndUpdate(id, {$set: {profileImage: url}}, {new: true});
                 console.log("file detected and users match")
         
                 if (!req.file) return res.status(200).json({user: user_, message: 'User has been updated.'});
