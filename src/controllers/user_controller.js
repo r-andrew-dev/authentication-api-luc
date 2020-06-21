@@ -8,15 +8,15 @@ const keys = require("../../keys");
 
 exports.index = async function(req, res) {
 
-    const users = await User.find({employer: false}).sort({firstName: 1});
+    const users = await User.find().sort({firstName: 1});
     res.status(200).json({users});
 };
 
 exports.getEmployees = async function(req, res) {
+    
     const {company} = req.params
-    console.log(company)
-    const users = await User.aggregate([{$match: {"employer": false, "company": company}}]).sort({firstName: 1});
-    console.log(users)
+
+    const users = await User.aggregate([{$match: {"company": company, "employer": false, "isVerified" : true}}]).sort({firstName: 1});
     res.status(200).json(users);
 };
 
@@ -121,8 +121,10 @@ exports.updateProfileImage = async function (req, res) {
 
     try {
         console.log('hitting this route - to upload an image')
+      
         const id = req.params.id 
         const userId = req.user._id;
+        const image = req.body.data
 
                 // Make sure the passed id is that of the logged in user
                 if (userId.toString() != id.toString()) {
@@ -130,15 +132,15 @@ exports.updateProfileImage = async function (req, res) {
                     return res.status(401).json({ message: 'Sorry. You do not have permission to update this data.'});
                 }
         
-                if (!req.file) {
-                    console.log("Hit here, saying no file present")
-                    return res.status(200).json({ user, message: 'User has been updated.'});
-                }
+                // if (!req.file) {
+                //     console.log("Hit here, saying no file present")
+                //     return res.status(200).json({ user, message: 'User has been updated.'});
+                // }
         
                 // attempt to upload to Cloudinary 
         
-                const result = await uploader(req);
-                const user_ = await User.findByIdAndUpdate(id, {$set: {profileImage: url}}, {new: true});
+                // const result = await uploader(req);
+                const user_ = await User.findByIdAndUpdate(id, {$set: {profileImage: image}}, {new: true});
                 console.log("file detected and users match")
         
                 if (!req.file) return res.status(200).json({user: user_, message: 'User has been updated.'});
