@@ -62,7 +62,7 @@ exports.store = async (req, res) => {
 
         await sendEmail({ to, from, subject, html, link});
 
-        res.status(200).json({message: 'An email has been sent to ' + user_.email + '.'});
+        res.status(200).json({message: 'A verification email has been sent to ' + user_.email + '. Users will appear in the system once accounts are verified.'});
 
     }catch (error) {
         res.status(500).json({success: false, message: error.message})
