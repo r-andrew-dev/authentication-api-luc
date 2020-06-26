@@ -57,7 +57,8 @@ exports.store = async (req, res) => {
         let link = 'http://' + req.headers.host + '/api/auth/reset/' + user_.resetPasswordToken;
         let html = `<p>Hi ${user_.firstName} ${user_.lastName}<p><br><p>A new account has been created for you on Level Up Coding - a developer rating application. Please click on 
                     the following <a href="${link}">link</a> to set your password and login.</p>
-                    <br><p>If you or your employer did not request this, please ignore this email.</p>`
+                    <br><p>If you or your employer did not request this, please ignore this email.</p>
+                    <p>FOR OUR TESTING PURPOSES PLEASE MAKE YOUR PASSWORD Bootcamp1<p>`
 
         await sendEmail({ to, from, subject, html, link});
 
