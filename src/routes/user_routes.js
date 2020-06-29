@@ -31,7 +31,6 @@ router.put('/:id', User.update);
 // UPDATE PROFILE IMAGE 
 
 router.put('/upload/:id', upload, User.updateProfileImage, () => {
-    console.log("made it to this point")
 })
 
 

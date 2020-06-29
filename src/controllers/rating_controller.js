@@ -2,9 +2,7 @@ const User = require('../models/user');
 const ObjectId = require('mongodb').ObjectID;
 
 exports.submitRating = async function(req, res) {
-    console.log(req.body)
     try {
-        console.log('this route was hit')
         const {id} = req.params 
         const {postedBy, rating, skillName} = req.body
         const rateSubmitted = await User.find({ "_id": ObjectId(id), "ratings": { $elemMatch: {"postedBy": postedBy, "skillName": skillName }}}, function(err, results) {
@@ -13,8 +11,6 @@ exports.submitRating = async function(req, res) {
         })
 
         if (rateSubmitted) {
-
-            console.log(id, postedBy, skillName, rating)
         
         if (!postedBy || !rating || !skillName || !id) {
             {return res.send({message:"Please provide all required information to submit a rating."})}
@@ -84,10 +80,7 @@ exports.getRatingAverages = async function(req, res) {
            //  FUNCTION TO GET ALL OF THE USERS RATINGS, SORT THEM BY SKILL NAME, 
 // AND THEN AVERAGE TOGETHER THE SKILL NAME SETS.
 
-           console.log("->",ratObj)
-           console.log(Object.values(ratObj))
             res.send(Object.values(ratObj))
-            // res.status(200).json({ratings})
         })
      .catch((err) => { 
         res.status(500).json({

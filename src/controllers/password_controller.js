@@ -24,8 +24,6 @@ exports.recover = async (req, res) => {
 
         // send email 
 
-        console.log(user)
-
         let subject = 'Password change request';
         let to = user.email;
         let from = keys.keys.from_email;
@@ -48,7 +46,6 @@ exports.recover = async (req, res) => {
 
 exports.reset = async(req, res) => {
 
-    console.log("getting her to password.reset")
     try {
         const {token} = req.params; 
 
